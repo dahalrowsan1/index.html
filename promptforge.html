@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PromptForge – Free ChatGPT Prompt, Caption & Title Generators</title>
+<meta name="description" content="Free AI prompt generator, Instagram caption generator and YouTube title generator. No sign-up, works instantly in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f4ee;--card:#fff;--ink:#14213d;--mute:#5b6478;--line:#d9ddd0;--acc:#3a47f5;--acc-ink:#fff;--hi:#f2e94e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1426;--card:#171d35;--ink:#eef0fa;--mute:#9aa3bf;--line:#2a3254;--acc:#7b86ff;--acc-ink:#0f1426;--hi:#f2e94e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1426;--card:#171d35;--ink:#eef0fa;--mute:#9aa3bf;--line:#2a3254;--acc:#7b86ff;--acc-ink:#0f1426;--hi:#f2e94e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+header{padding:26px 0 10px}
+.logo{font:800 28px/1 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+.logo span{background:var(--hi);color:#14213d;padding:0 6px;border-radius:4px}
+h1{font:800 clamp(28px,6vw,42px)/1.1 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em;margin:22px 0 8px;max-width:18ch}
+.sub{color:var(--mute);margin:0 0 22px;max-width:52ch}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+nav.tabs a{flex:none;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;background:var(--card)}
+nav.tabs a[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.panel{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px}
+.panel h2{font:800 22px/1.2 "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 4px}
+.panel p.d{color:var(--mute);margin:0 0 16px;font-size:15px}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 5px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:9px;padding:11px 12px}
+textarea{min-height:76px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+button.go{margin-top:18px;width:100%;font:700 17px/1 inherit;padding:15px;border:0;border-radius:10px;background:var(--acc);color:var(--acc-ink);cursor:pointer}
+button.go:active{transform:translateY(1px)}
+.res{margin-top:18px;display:grid;gap:10px}
+.item{border:1.5px solid var(--line);border-left:6px solid var(--hi);border-radius:10px;padding:12px 14px;background:var(--bg);white-space:pre-wrap;overflow-wrap:anywhere}
+.item button{display:block;margin-top:10px;font:600 14px inherit;padding:8px 12px;border-radius:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.empty{color:var(--mute);font-size:15px;margin:16px 0 0}
+.ad{margin:18px 0;text-align:center;overflow:hidden;min-height:0}
+.ad:empty{display:none}
+.more{margin:30px 0 8px;font:800 20px/1.2 "Bricolage Grotesque",system-ui,sans-serif}
+.more ul{margin:8px 0 0;padding-left:20px;color:var(--mute);font-size:15px}
+.more li{margin:4px 0}
+.page{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px}
+.page h2{font:800 24px/1.2 "Bricolage Grotesque",system-ui,sans-serif;margin-top:0}
+footer{margin:36px 0 28px;padding-top:16px;border-top:1.5px solid var(--line);font-size:14px;color:var(--mute);display:flex;flex-wrap:wrap;gap:6px 16px}
+footer a{color:var(--mute)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="logo" href="#prompt">Prompt<span>Forge</span></a></header>
+<h1>Write better AI prompts, captions and titles. Free.</h1>
+<p class="sub">Fill in a few boxes and get ready-to-use text in seconds. No sign-up, nothing is stored.</p>
+
+<nav class="tabs" id="tabs" aria-label="Tools">
+<a href="#prompt" data-v="prompt">ChatGPT Prompt</a>
+<a href="#caption" data-v="caption">Instagram Caption</a>
+<a href="#youtube" data-v="youtube">YouTube Title</a>
+</nav>
+
+<!-- Adsterra: paste your Native Banner code inside the div below. It stays hidden while empty. -->
+<div class="ad" id="ad-top"></div>
+
+<main>
+<section class="panel" id="v-prompt" hidden>
+<h2>ChatGPT Prompt Generator</h2>
+<p class="d">Turn a rough idea into a clear prompt that works in ChatGPT, Gemini or Claude.</p>
+<label for="p-goal">What do you want the AI to do?</label>
+<textarea id="p-goal" placeholder="Write a 7-day meal plan for a busy college student on a $50 budget"></textarea>
+<div class="row">
+<div><label for="p-role">AI should act as</label>
+<select id="p-role"><option>expert writer</option><option>career coach</option><option>marketing strategist</option><option>personal trainer</option><option>financial educator</option><option>teacher</option><option>software developer</option><option>social media manager</option></select></div>
+<div><label for="p-tone">Tone</label>
+<select id="p-tone"><option>friendly and clear</option><option>professional</option><option>casual</option><option>persuasive</option><option>simple, like explaining to a beginner</option></select></div>
+</div>
+<div class="row">
+<div><label for="p-aud">Who is it for?</label><input id="p-aud" placeholder="Beginners, my boss, Gen Z…"></div>
+<div><label for="p-fmt">Answer format</label>
+<select id="p-fmt"><option>short paragraphs</option><option>bullet points</option><option>step-by-step list</option><option>table</option><option>email</option></select></div>
+</div>
+<button class="go" data-go="prompt">Build my prompt</button>
+<div class="res" id="r-prompt"></div>
+</section>
+
+<section class="panel" id="v-caption" hidden>
+<h2>Instagram Caption Generator</h2>
+<p class="d">Get five caption options with hashtags for your next post or Reel.</p>
+<label for="c-topic">What is your post about?</label>
+<input id="c-topic" placeholder="sunset at the beach, new haircut, gym day">
+<div class="row">
+<div><label for="c-vibe">Vibe</label>
+<select id="c-vibe"><option value="fun">Fun</option><option value="aesthetic">Aesthetic</option><option value="motivation">Motivational</option><option value="funny">Funny</option><option value="pro">Professional</option></select></div>
+<div><label for="c-emo">Emojis</label>
+<select id="c-emo"><option value="1">Yes</option><option value="0">No</option></select></div>
+</div>
+<button class="go" data-go="caption">Write captions</button>
+<div class="res" id="r-caption"></div>
+</section>
+
+<section class="panel" id="v-youtube" hidden>
+<h2>YouTube Title Generator</h2>
+<p class="d">Five title ideas that make people want to click, for videos and Shorts.</p>
+<label for="y-topic">What is your video about?</label>
+<input id="y-topic" placeholder="budgeting, iPhone tips, learning guitar">
+<label for="y-style">Style</label>
+<select id="y-style"><option value="curious">Curiosity</option><option value="how">How-to</option><option value="list">List</option><option value="short">Shorts</option></select>
+<button class="go" data-go="youtube">Get titles</button>
+<div class="res" id="r-youtube"></div>
+</section>
+
+<section class="page" id="v-privacy" hidden>
+<h2>Privacy Policy</h2>
+<p>PromptForge does not ask you to create an account. Text you type into the tools is processed in your browser and is not sent to or stored on our servers.</p>
+<p>We use third-party advertising partners, including Adsterra, to show ads. These partners may use cookies and similar technologies to show ads and measure performance. You can limit cookies in your browser settings.</p>
+<p>If you have questions about this policy, use the Contact page.</p>
+</section>
+<section class="page" id="v-about" hidden>
+<h2>About PromptForge</h2>
+<p>PromptForge is a set of free writing helpers for creators, students and job seekers. Each tool uses proven templates so you get a strong starting point in seconds, then you can edit it to sound like you.</p>
+</section>
+<section class="page" id="v-contact" hidden>
+<h2>Contact</h2>
+<p>Questions, ideas for a new tool, or a problem to report? Email <strong>your-email@example.com</strong>.</p>
+</section>
+</main>
+
+<div class="ad" id="ad-mid"></div>
+
+<div class="more" id="more">More tools coming soon
+<ul><li>Resume and cover letter prompts</li><li>TikTok hook generator</li><li>AI image prompt generator</li></ul></div>
+
+<footer>
+<span>© 2026 PromptForge</span>
+<a href="#about">About</a><a href="#privacy">Privacy Policy</a><a href="#contact">Contact</a>
+</footer>
+</div>
+<div class="toast" id="toast" role="status">Copied</div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var views=['prompt','caption','youtube','privacy','about','contact'];
+function show(){
+  var h=(location.hash||'#prompt').slice(1);
+  if(views.indexOf(h)<0)h='prompt';
+  views.forEach(function(v){$('v-'+v).hidden=(v!==h)});
+  document.querySelectorAll('#tabs a').forEach(function(a){
+    if(a.dataset.v===h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+  });
+  $('more').hidden=(['privacy','about','contact'].indexOf(h)>=0);
+}
+window.addEventListener('hashchange',show);show();
+
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+
+var toastT;
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('on')},1400)}
+function copy(txt){
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast('Copied')},function(){fb(txt)});return}
+  }catch(e){}
+  fb(txt);
+}
+function fb(txt){
+  try{var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Copied')}catch(e){toast('Select and copy manually')}
+}
+function render(id,list){
+  var box=$(id);box.innerHTML='';
+  list.forEach(function(t){
+    var d=document.createElement('div');d.className='item';
+    var s=document.createElement('span');s.textContent=t;d.appendChild(s);
+    var b=document.createElement('button');b.type='button';b.textContent='Copy';
+    b.addEventListener('click',function(){copy(t)});
+    d.appendChild(b);box.appendChild(d);
+  });
+}
+function need(id,msg){
+  var el=$(id);
+  if(!el.value.trim()){
+    var box=$('r-'+el.id.charAt(0).replace('p','prompt').replace('c','caption').replace('y','youtube'));
+    box.innerHTML='';var p=document.createElement('p');p.className='empty';p.textContent=msg;box.appendChild(p);el.focus();return false;
+  }
+  return true;
+}
+
+function genPrompt(){
+  if(!need('p-goal','Describe what you want the AI to do first.'))return;
+  var g=$('p-goal').value.trim().replace(/[.\s]+$/,''),aud=$('p-aud').value.trim();
+  var t='Act as an '+'';
+  var role=$('p-role').value;
+  t=(/^[aeiou]/i.test(role)?'Act as an ':'Act as a ')+role+'.\n\nYour task: '+g+'.\n';
+  if(aud)t+='\nAudience: '+aud+'.';
+  t+='\nTone: '+$('p-tone').value+'.\nFormat: '+$('p-fmt').value+'.\n\nBefore you answer, ask me up to 3 short questions if anything is unclear. Then give your best answer and finish with 2 ways I could improve the result.';
+  var short='Act as '+(/^[aeiou]/i.test(role)?'an ':'a ')+role+'. '+cap(g)+'. Use a '+$('p-tone').value+' tone'+(aud?' for '+aud:'')+' and format the answer as '+$('p-fmt').value+'.';
+  render('r-prompt',[t,short]);
+}
+
+var CAP={
+fun:{e:['✨','😄','🔥','🙌','💫'],t:['{t}: no notes.','Just a little {t} to brighten your feed.','Today’s mood: {t}.','Less scrolling, more {t}.','{T} and good company. That’s the post.'],h:['#vibes','#goodtimes','#mood']},
+aesthetic:{e:['🤍','🌿','🕊️','🌙','📷'],t:['Soft light, slow days, {t}.','{T}, quietly.','Small moments of {t}.','Collecting days like this: {t}.','Found in the details: {t}.'],h:['#aesthetic','#softlife','#slowliving']},
+motivation:{e:['💪','🚀','🏆','⚡','🎯'],t:['{T} is a choice you make every day.','Start where you are. Keep going with {t}.','Progress over perfection: {t}.','Nobody remembers the easy days. Keep at {t}.','One more step toward {t}.'],h:['#motivation','#keepgoing','#growth']},
+funny:{e:['😂','🤣','🙃','😅','💀'],t:['Me pretending I have {t} under control.','{T}? I thought you said snacks.','My roman empire is {t}.','Plot twist: {t} was harder than it looked.','Posting {t} so you don’t have to try it.'],h:['#relatable','#funny','#mood']},
+pro:{e:['📌','💼','📈','✅','🤝'],t:['A quick update on {t}.','What I’ve learned about {t} this year.','Sharing our approach to {t}.','{T}: three lessons worth passing on.','Behind the scenes of {t}.'],h:['#business','#careergrowth','#learning']}
+};
+function genCaption(){
+  if(!need('c-topic','Tell us what the post is about first.'))return;
+  var topic=$('c-topic').value.trim(),v=CAP[$('c-vibe').value],emo=$('c-emo').value==='1';
+  var tag='#'+topic.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,24);
+  var out=shuffle(v.t).slice(0,5).map(function(s){
+    s=s.replace(/\{T\}/g,cap(topic)).replace(/\{t\}/g,topic.toLowerCase());
+    if(emo)s+=' '+pick(v.e);
+    var hs=(tag.length>1?[tag]:[]).concat(shuffle(v.h).slice(0,2));
+    return s+'\n\n'+hs.join(' ');
+  });
+  render('r-caption',out);
+}
+
+var YT={
+curious:['I tried {t} for 30 days. Here’s what happened','The truth about {t} nobody talks about','Why {t} is harder than it looks','Everyone gets {t} wrong. Here’s why','{T}: what I wish I knew sooner'],
+how:['How to get started with {t} (step by step)','{T} for beginners: a simple guide','How I learned {t} fast','The easiest way to do {t}','How to do {t} without wasting money'],
+list:['7 {t} mistakes to avoid','5 {t} tips that actually work','10 things I learned about {t}','3 {t} tricks you’ll use every day','Top 5 {t} tools worth trying'],
+short:['{T} in 30 seconds','Stop doing {t} this way','Quick {t} tip you need','Watch this before you try {t}','{T} hack that works']
+};
+function genYT(){
+  if(!need('y-topic','Tell us what the video is about first.'))return;
+  var topic=$('y-topic').value.trim();
+  var out=shuffle(YT[$('y-style').value]).slice(0,5).map(function(s){return s.replace(/\{T\}/g,cap(topic)).replace(/\{t\}/g,topic.toLowerCase())});
+  render('r-youtube',out);
+}
+
+document.querySelectorAll('button.go').forEach(function(b){
+  b.addEventListener('click',function(){var k=b.dataset.go;if(k==='prompt')genPrompt();else if(k==='caption')genCaption();else genYT()});
+});
+})();
+</script>
+</body>
+</html>
